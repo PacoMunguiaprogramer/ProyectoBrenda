@@ -1,0 +1,29 @@
+<%- include("templates/encabezado")%>
+   <h1>Registro de usuarios</h1>
+<div class="contenedor">
+   
+   <form action="/agregarusuario" method="post" id="formulario"> <!--Cuando queremos enviar archivos usamos enctype="multipart/form-data"-->
+      <i class="fa-solid fa-users"></i>
+      <br>
+      <label for="nombre">Nombre: </label><span class="ocultar errorNombre">Nombre no valido</span>
+<input autofocus name="nombre" id="nombre" type="text" placeholder="Nombre" required/><!--Autofocus se usa para que al abrir la aplicacion ya aparezca sleccionado un input de texto-->
+
+
+<label for="contraseña">Contraseña: </label>
+   <input type="password" name ="contraseña" id="contraseña" placeholder="contraseña" required minlength="8">
+
+<label for="celular">Celular: </label><span class="ocultar errorCelular">Celular no valido</span>
+<input type="text" name ="celular" id="celular" placeholder="celular">
+
+
+
+
+<label for="correo">Correo: </label><span class="ocultar errorCorreo">Correo no valido</span>
+<input type="text" name ="correo" id="correo" placeholder="correo" required>
+
+<button onclick="Enviar()" id="Enviar" type="submit" >Guardar datos</button>
+<br>
+<a class="inicia" href="/login">¿tienes cuenta? Inicia sesión aquí</a>
+</form> 
+</div>
+<%- include("templates/pie")%>

@@ -1,0 +1,19 @@
+<%- include("templates/encabezado")%>
+   <h1>Iniciar sesion</h1>
+<div class="contenedor">
+   
+   <form action="/auth" method="post" id="formulario"> <!--Cuando queremos enviar archivos usamos enctype="multipart/form-data"-->
+      <i class="fa-solid fa-users"></i>
+      <br>   
+      <label for="nombre">Nombre: </label>
+<input autofocus name="nombre" id="nombre" type="text" placeholder="Nombre"/><!--Autofocus se usa para que al abrir la aplicacion ya aparezca sleccionado un input de texto-->
+
+
+<label for="contraseña">Contraseña: </label>
+   <input type="password" name ="contraseña" id="contraseña" placeholder="contraseña" required minlength="8">
+   <button onclick="Enviar()" id="Enviar" type="submit" >Iniciar Sesion</button> 
+   <br>
+   <a class="inicia" href="/registro">¿No tienes cuenta? Regístrate aquí</a>
+</form> 
+</div>
+<%- include("templates/pie")%>
