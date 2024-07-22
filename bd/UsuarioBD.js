@@ -33,6 +33,18 @@ async mostrarUsuarios(){
         console.error(sql);
     }
 }
+async buscarUsuarioPorNombre(nombre) {
+    const sql = 'SELECT * FROM usuarios WHERE nombre = ?';
+    try {
+        await this.conectarMySql();
+        const [results] = await this.conexion.execute(sql, [nombre]);
+        await this.cerrarConexion();
+        return results;
+    } catch (err) {
+        console.error('Error al buscar usuario por nombre: ' + err);
+        return [];
+    }
+}
 async buscarUsuarioPorId(idUsuario){
     const sql="SELECT * FROM usuarios where idusuarios="+idUsuario+";";
     try {

@@ -37,25 +37,32 @@ ruta.get('/registro', (req, res) => {
 
 
 
-ruta.post("/agregarUsuario",async (req,res)=>{
+  ruta.post("/agregarUsuario", async (req, res) => {
+    const { nombre, celular, correo, contraseña } = req.body;
+    const usuario1 = new UsuarioClase(req.body);
 
-console.log(req.body);
-const usuario1=new UsuarioClase(req.body);
-const usuariobd=new UsuarioBD();
-if(usuario1.nombre!=undefined && usuario1.celular!=undefined && usuario1.correo!=undefined){
-    await usuariobd.nuevoUsuario(req.body);
-    res.render("registro");
-}
-else{
-    res.render("error");
-}
-});
-ruta.get("/editarUsuario/:id", async(req, res)=>{
+    if (nombre && celular && correo && contraseña) {
+        try {
+            const usuariobd = new UsuarioBD();
 
-    const usuariobd= new UsuarioBD();
-const [[usuario]]=await usuariobd.buscarUsuarioPorId(req.params.id);
-console.log(usuario);
-res.render("editarUsuario",usuario);
+            // Verifica si el nombre de usuario ya existe
+            const usuariosExistentes = await usuariobd.buscarUsuarioPorNombre(nombre);
+            if (usuariosExistentes.length > 0) {
+                // Si el nombre ya existe, muestra un mensaje de error
+                res.render("error", { mensaje: "El nombre de usuario ya está registrado." });
+                return;
+            }
+
+            // Si el nombre no existe, agrega el nuevo usuario
+            await usuariobd.nuevoUsuario(req.body);
+            res.redirect('/registro');
+        } catch (error) {
+            console.error("Error al agregar usuario: " + error);
+            res.render("error");
+        }
+    } else {
+        res.render("error");
+    }
 });
 
 ruta.post("/editarUsuario", async(req, res)=>{
@@ -91,7 +98,7 @@ ruta.get('/login', (req, res) => {
         req.session.nombre = nombre;
         res.redirect('/home');
       } else {
-        res.send('Nombre o contraseña incorrectos.');
+        res.render("error",{mensaje:"Nombre de Usario o contraseña incorrectos"});
       }
     } else {
       res.send('Por favor ingrese el nombre y la contraseña.');
